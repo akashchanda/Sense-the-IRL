@@ -18,50 +18,61 @@ public class WaterScript : MonoBehaviour
     private string clarityURL;
     private string microorganismsURL;
 
-    void Start() {
+    void Start()
+    {
         NetworkingScript = gameObject.GetComponent<NetworkScript>();
     }
 
-    private class clarityJson {
+    private class clarityJson
+    {
         public float observation;
         public float latitude;
         public float longitude;
     }
 
-    private class microorganismsJson {
+    private class microorganismsJson
+    {
         public bool observation;
         public float latitude;
         public float longitude;
     }
 
-    public void setTrue() {
+    public void setTrue()
+    {
         microorganisms_is_true = true;
     }
 
     //only save slider values for submission that user intends to submit
-    public void clarityChangeSubmitted(GameObject obj) {
+    public void clarityChangeSubmitted(GameObject obj)
+    {
         clarity_changed = true;
     }
 
-    public void switchInterfaces(int layer) {
+    public void switchInterfaces(int layer)
+    {
         //layer 0 is the main interface and 1 the popup
-        if (layer == 0) {
+        if (layer == 0)
+        {
             info_interface.gameObject.SetActive(false);
             water_interface.gameObject.SetActive(true);
         }
-        else {
+        else
+        {
             water_interface.gameObject.SetActive(false);
             info_interface.gameObject.SetActive(true);
         }
     }
 
     //submit json form
-    public void submitForm() {
-        if (!clarity_changed && !microorganisms_is_true) {
+    public void submitForm()
+    {
+        if (!clarity_changed && !microorganisms_is_true)
+        {
             return;
         }
         string jsonStringTrial;
-        if(clarity_changed) {
+        if (clarity_changed)
+        {
             //submit clarity
             clarityJson newJ = new clarityJson();
             newJ.observation = slider.value;
@@ -71,7 +82,8 @@ public class WaterScript : MonoBehaviour
             jsonStringTrial = JsonUtility.ToJson(newJ);
             //NetworkingScript.sendJsonPacket(,jsonStringTrial);
         }
-        if(microorganisms_is_true) {
+        if (microorganisms_is_true)
+        {
             //submit microorganisms
             microorganismsJson newJ = new microorganismsJson();
             newJ.observation = true;
@@ -80,8 +92,8 @@ public class WaterScript : MonoBehaviour
             newJ.longitude = -80.123f;
             jsonStringTrial = JsonUtility.ToJson(newJ);
             //NetworkingScript.sendJsonPacket(,jsonStringTrial);
-            gameObject.GetComponent<SceneConfig>().Scene_loader("Home");
         }
+        gameObject.GetComponent<SceneConfig>().Scene_loader("Home");
     }
-    
+
 }
